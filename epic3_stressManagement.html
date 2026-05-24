@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stress Management Tips</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="stress.css">
+</head>
+
+<body class="has-fixed-nav">
+
+    <!--MAIN NAVBAR (or topNavbar), css reference 'top-navbar'-->
+    <nav class="navbar navbar-expand-lg navbar-light top-navbar">
+        <a class="navbar-brand" href="index.html">Home</a>
+
+        <!--hamburger button that opens all links and collapses both-->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse dual-collapse" id="mainNavbar">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link active" href="epic1_classCalendar.html">Planner</a>
+                <a class="nav-item nav-link active" href="epic6_focusManagement.html">Study Timer</a>
+                <a class="nav-item nav-link active" href="epic2_studyTracker.html">Assignment Tracker</a>
+                <a class="nav-item nav-link active" href="epic3_stressManagement.html">Stress Management Tips</a>
+            </div>
+            <div class="navbar-nav ml-auto nav-auth-group">
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle active" href="#" id="aboutDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">About</a>
+                    <div class="dropdown-menu" aria-labelledby="aboutDropdown">
+                        <a class="dropdown-item" href="team.html">About Us</a>
+                        <a class="dropdown-item" href="about.html">About the Project</a>
+                    </div>
+                </div>
+                <div class="nav-item dropdown profile-dropdown-wrap">
+                    <a class="nav-link profile-icon active" href="epic4_profile.html" id="profileDropdown"
+                        title="Profile & Settings">
+                        <i class="bi bi-person-circle"></i>
+                        <i class="bi bi-caret-down-fill profile-caret"></i>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right profile-menu" aria-labelledby="profileDropdown">
+                        <a class="dropdown-item" href="epic4_profile.html">Profile &amp; Settings</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="login.html">Login</a>
+                        <a class="dropdown-item" href="logout.html">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="app_body">
+        <aside class="sidebar">
+            <div class="sidebar_head">
+                <div class="sidebar_title">Upcoming Events and Courses</div>
+                <div class="sidebar_term" data-term-label>Spring 2026</div>
+            </div>
+
+            <div class="sidebar_section">
+                <div class="sidebar_section_title">Upcoming Events</div>
+                <div class="sidebar_list" id="sidebarUpcoming"></div>
+            </div>
+
+            <div class="sidebar_section">
+                <div class="sidebar_section_title">Courses</div>
+                <div class="sidebar_list" id="sidebarCourses"></div>
+            </div>
+        </aside>
+
+        <!-- course edit modal needed by the shared sidebar LocalStorage script -->
+        <div class="modal fade" id="courseModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <form id="courseEditForm">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Course Details</h5>
+                            <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" id="modalCourseId">
+                            <div class="form-group">
+                                <label for="modalCourseName">Course Name</label>
+                                <input type="text" class="form-control" id="modalCourseName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="modalCourseTime">Course Time</label>
+                                <input type="text" class="form-control" id="modalCourseTime">
+                            </div>
+                            <div class="form-group">
+                                <label for="modalCourseInstructor">Instructor</label>
+                                <input type="text" class="form-control" id="modalCourseInstructor">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="deleteCourseBtn" class="btn btn-danger">Delete</button>
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <section class="content stress-page">
+            <div class="stress-hero">
+                <h2 class="content_title">Stress Management Tips and Guidance</h2>
+
+                <div class="quick-links">
+                    <a class="quick-link-pill" href="https://www.iu.edu/mental-health/find-resources/timely-care.html"
+                        target="_blank" rel="noopener noreferrer">
+                        <i class="bi bi-heart-pulse"></i> TimelyCare
+                    </a>
+                    <a class="quick-link-pill" href="https://healthy.iu.edu/wellness-information/mental-well-being.html"
+                        target="_blank" rel="noopener noreferrer">
+                        <i class="bi bi-flower1"></i> Mental Well-Being
+                    </a>
+                    <a class="quick-link-pill"
+                        href="https://healthy.iu.edu/campus-programs-services/university/midday-mindfulness.html"
+                        target="_blank" rel="noopener noreferrer">
+                        <i class="bi bi-brightness-alt-high"></i> Midday Mindfulness
+                    </a>
+                    <a class="quick-link-pill"
+                        href="https://studentlife.indiana.edu/care-advocacy/care-and-resource-center/submit-care-referral.html"
+                        target="_blank" rel="noopener noreferrer">
+                        <i class="bi bi-people"></i> Care Referral
+                    </a>
+                </div>
+            </div>
+
+            <h3 class="section-heading">Everyday coping strategies</h3>
+            <div class="tips-grid">
+                <div class="stress-card">
+                    <div class="mini-label">Reset your day</div>
+                    <h3>Simple ways to reduce stress fast</h3>
+                    <ul>
+                        <li>Pause for one minute and take slow deep breaths before starting your next task.</li>
+                        <li>Break large assignments into smaller steps you can finish one at a time.</li>
+                        <li>Use a timer for short work sessions, then take a brief mental reset.</li>
+                        <li>Drink water, eat regularly, and avoid skipping sleep during busy weeks.</li>
+                        <li>Step away from your screen for a quick walk, stretch, or quiet break.</li>
+                    </ul>
+                </div>
+
+                <div class="stress-card">
+                    <div class="mini-label">Academic stress</div>
+                    <h3>When school work feels overwhelming</h3>
+                    <ul>
+                        <li>Write down your top three priorities for the day instead of trying to do everything at once.
+                        </li>
+                        <li>Email your professor early if you are falling behind and need support.</li>
+                        <li>Use a planner or calendar to map due dates before the week gets too busy.</li>
+                        <li>Study in focused time blocks and silence distractions during each session.</li>
+                        <li>Ask for tutoring, advising, or campus help before stress builds up.</li>
+                    </ul>
+                </div>
+
+                <div class="stress-card">
+                    <div class="mini-label">Emotional balance</div>
+                    <h3>Healthy habits that support your mind</h3>
+                    <ul>
+                        <li>Journal what is stressing you out and identify one action you can take today.</li>
+                        <li>Talk to a friend, mentor, counselor, coach, or advisor instead of carrying stress alone.
+                        </li>
+                        <li>Limit doom-scrolling when you already feel mentally tired.</li>
+                        <li>Give yourself realistic expectations instead of chasing perfection.</li>
+                        <li>Celebrate progress, even if the day did not go exactly as planned.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3 class="section-heading">Mindfulness practices</h3>
+            <div class="practice-grid">
+                <div class="stress-card">
+                    <h3>1 minute breathing reset</h3>
+                    <p>Try this between classes, before an exam, or anytime your mind feels overloaded.</p>
+                    <div class="mindfulness-box">
+                        <strong>Practice</strong>
+                        Inhale for 4 seconds, hold for 4 seconds, exhale for 4 seconds, and repeat 4 times.
+                    </div>
+                </div>
+
+                <div class="stress-card">
+                    <h3>5 senses grounding</h3>
+                    <p>Use this when you feel anxious, distracted, or mentally stuck.</p>
+                    <div class="mindfulness-box">
+                        <strong>Practice</strong>
+                        Name 5 things you see, 4 things you feel, 3 things you hear, 2 things you smell, and 1 thing you
+                        taste.
+                    </div>
+                </div>
+
+                <div class="stress-card">
+                    <h3>Mini reflection practice</h3>
+                    <p>This is helpful at the end of the day or after a stressful moment.</p>
+                    <div class="mindfulness-box">
+                        <strong>Practice</strong>
+                        Ask yourself: What am I feeling right now? What caused it? What is one healthy next step?
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="section-heading">Direct support resources</h3>
+            <div class="resource-grid">
+                <section class="stress-card resource-card">
+                    <h3>IU TimelyCare</h3>
+                    <p>Free virtual mental health support for IU students. Great for on demand emotional support,
+                        scheduled counseling, and self-care resources.</p>
+                    <a class="action-btn" href="https://www.iu.edu/mental-health/find-resources/timely-care.html"
+                        target="_blank" rel="noopener noreferrer">Visit TimelyCare</a>
+                </section>
+
+                <section class="stress-card resource-card">
+                    <h3>Healthy IU Mental Well-Being</h3>
+                    <p>Explore stress reduction information, well-being guidance, and mindfulness support through
+                        official IU wellness resources.</p>
+                    <a class="action-btn" href="https://healthy.iu.edu/wellness-information/mental-well-being.html"
+                        target="_blank" rel="noopener noreferrer">View Mental Well-Being Resources</a>
+                </section>
+
+                <section class="stress-card resource-card">
+                    <h3>Midday Mindfulness</h3>
+                    <p>Join guided mindfulness sessions focused on breathing, meditation, and restoring calm during the
+                        day.</p>
+                    <a class="action-btn"
+                        href="https://healthy.iu.edu/campus-programs-services/university/midday-mindfulness.html"
+                        target="_blank" rel="noopener noreferrer">Join Midday Mindfulness</a>
+                </section>
+
+                <section class="stress-card resource-card">
+                    <h3>Mindful Way to Stress Reduction</h3>
+                    <p>A structured mindfulness program from Healthy IU for reducing stress and anxiety with
+                        evidence-based mind-body tools.</p>
+                    <a class="action-btn"
+                        href="https://healthy.iu.edu/campus-programs-services/university/mindful-way.html"
+                        target="_blank" rel="noopener noreferrer">Explore the Program</a>
+                </section>
+
+                <section class="stress-card resource-card">
+                    <h3>Care and Resource Referral</h3>
+                    <p>Request help for yourself or for someone else when you are concerned and do not know where to
+                        start.</p>
+                    <a class="action-btn"
+                        href="https://studentlife.indiana.edu/care-advocacy/care-and-resource-center/submit-care-referral.html"
+                        target="_blank" rel="noopener noreferrer">Submit a Care Referral</a>
+                </section>
+
+                <section class="stress-card resource-card">
+                    <h3>UITS Help and Support</h3>
+                    <p>Get technology help by chat, phone, email, or in person if tech issues are adding stress to your
+                        school work.</p>
+                    <a class="action-btn" href="https://uits.iu.edu/get-help/index.html" target="_blank"
+                        rel="noopener noreferrer">Get Tech Help</a>
+                </section>
+            </div>
+
+            <div class="emergency-box">
+                <h3>Need urgent support?</h3>
+                <p>If you are experiencing a mental health crisis or need immediate support, Indiana University provides
+                    several confidential services for students.</p>
+                <p>You can contact <strong>IU Counseling and Psychological Services (CAPS)</strong> for urgent mental
+                    health support, crisis counseling, and immediate assistance. IU also provides a centralized mental
+                    health resources page to help you find the right support service.</p>
+
+                <div class="quick-links emergency-links">
+                    <a class="quick-link-pill" href="https://www.iu.edu/mental-health/" target="_blank"
+                        rel="noopener noreferrer"><i class="bi bi-heart-pulse"></i> IU Mental Health Resources</a>
+                    <a class="quick-link-pill" href="https://healthcenter.indiana.edu/counseling/index.html"
+                        target="_blank" rel="noopener noreferrer"><i class="bi bi-person-heart"></i> IU Counseling &amp;
+                        Psychological Services (CAPS)</a>
+                    <a class="quick-link-pill"
+                        href="https://studentlife.indiana.edu/care-advocacy/care-and-resource-center/index.html"
+                        target="_blank" rel="noopener noreferrer"><i class="bi bi-people"></i> IU Care &amp; Resource
+                        Center</a>
+                    <a class="quick-link-pill" href="https://timelycare.com/iu" target="_blank"
+                        rel="noopener noreferrer"><i class="bi bi-chat-dots"></i> IU TimelyCare 24/7 Support</a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="storage.js"></script>
+</body>
+
+</html>

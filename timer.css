@@ -1,0 +1,224 @@
+.timerPanel {
+    border-radius: var(--radius);
+    padding: 18px;
+    box-shadow: var(--shadow);
+    min-height: 480px;
+}
+
+.timerInner {
+    display: grid;
+    grid-template-columns: 1fr 220px;
+    gap: 18px;
+    align-items: start;
+}
+
+.timerTitle {
+    text-align: center;
+    font-size: 34px;
+    font-weight: 900;
+    margin: 8px 0 10px;
+    font-family: "Comic Sans MS", "Segoe UI", var(--font);
+    letter-spacing: .5px;
+}
+
+.timerBox {
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, .55);
+    height: 260px;
+    display: grid;
+    place-items: center;
+    padding: 12px;
+}
+
+.timeDisplay {
+    font-size: 92px;
+    font-weight: 900;
+    letter-spacing: 2px;
+}
+
+/* TImer right table controls */
+.rightControls {
+    display: grid;
+    gap: 12px;
+    justify-items: end;
+    margin-top: 65px;
+}
+
+.miniBtn {
+    border: 2px solid #111;
+    background: rgba(255, 255, 255, .6);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-weight: 900;
+    cursor: pointer;
+    width: 160px;
+    text-align: center;
+}
+
+.miniBtn:hover {
+    background: rgba(255, 255, 255, .85);
+}
+
+.adjustTable {
+    width: 160px;
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+    border-radius: 10px;
+    border: 2px solid #111;
+    background: rgba(0, 0, 0, .55);
+}
+
+.adjustTable td {
+    border-top: 1px solid rgba(255, 255, 255, .15);
+    padding: 6px 6px;
+    text-align: center;
+    color: #fff;
+    font-weight: 900;
+    font-size: 12px;
+}
+
+.adjustTable tr:first-child td {
+    border-top: none;
+}
+
+.tableBtn {
+    width: 100%;
+    border: 1px solid rgba(255, 255, 255, .35);
+    background: rgba(255, 255, 255, .08);
+    color: #fff;
+    padding: 6px 0;
+    border-radius: 8px;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.tableBtn:hover {
+    background: rgba(255, 255, 255, .18);
+}
+
+.startBtn {
+    background: var(--green);
+    border: 2px solid #111;
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-weight: 900;
+    cursor: pointer;
+    width: 160px;
+    text-align: center;
+}
+
+.startBtn:hover {
+    background: var(--green-dark);
+}
+
+/* Slider */
+.sliderRow {
+    margin-top: 18px;
+    display: grid;
+    grid-template-columns: 44px 1fr 44px;
+    align-items: center;
+    gap: 12px;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.iconBtn {
+    width: 44px;
+    height: 34px;
+    border: 2px solid #111;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, .55);
+    font-weight: 900;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+}
+
+.iconBtn:hover {
+    background: rgba(255, 255, 255, .85);
+}
+
+.sliderWrap {
+    width: 100%;
+}
+
+input[type="range"] {
+    width: 100%;
+    accent-color: #111;
+}
+
+/* Minute dashes + labels */
+.ticks {
+    position: relative;
+    margin-top: 10px;
+    height: 22px;
+    width: 100%;
+}
+
+.tick {
+    position: absolute;
+    bottom: 0;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    pointer-events: none;
+}
+
+.tick .dash {
+    width: 2px;
+    height: 10px;
+    background: rgba(0, 0, 0, .55);
+    border-radius: 2px;
+}
+
+.tick .label {
+    font-size: 12px;
+    font-weight: 900;
+    color: #444;
+    line-height: 1;
+    min-height: 12px;
+}
+
+.taskModal .modal-header {
+    background: #3f8a3b;
+    color: white;
+    border-bottom: none;
+    padding: 18px 20px;
+}
+
+.required-star {
+    color: #d93025;
+}
+
+@media (max-width: 1100px) {
+    .contentGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .timerInner {
+        grid-template-columns: 1fr;
+    }
+
+    .rightControls {
+        justify-items: start;
+    }
+
+    .adjustTable,
+    .miniBtn,
+    .startBtn {
+        width: 220px;
+    }
+}
+
+/* Timer side controls alignment */
+.timer-controls,
+.time-controls,
+.controls-table,
+.adjustment-buttons {
+    margin-top: 90px !important;
+}

@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Focus and Distraction Management</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="timer.css">
+</head>
+
+<body class="has-fixed-nav">
+    <!--MAIN NAVBAR (or topNavbar), css reference 'top-navbar'-->
+    <nav class="navbar navbar-expand-lg navbar-light top-navbar">
+        <a class="navbar-brand" href="index.html">Home</a>
+
+        <!--hamburger button that opens all links and collapses both-->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse dual-collapse" id="mainNavbar">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link active" href="epic1_classCalendar.html">Planner</a>
+                <a class="nav-item nav-link active" href="epic6_focusManagement.html">Study Timer</a>
+                <a class="nav-item nav-link active" href="epic2_studyTracker.html">Assignment Tracker</a>
+                <a class="nav-item nav-link active" href="epic3_stressManagement.html">Stress Management Tips</a>
+            </div>
+            <div class="navbar-nav ml-auto nav-auth-group">
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle active" href="#" id="aboutDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">About</a>
+                    <div class="dropdown-menu" aria-labelledby="aboutDropdown">
+                        <a class="dropdown-item" href="team.html">About Us</a>
+                        <a class="dropdown-item" href="about.html">About the Project</a>
+                    </div>
+                </div>
+                <div class="nav-item dropdown profile-dropdown-wrap">
+                    <a class="nav-link profile-icon active" href="epic4_profile.html" id="profileDropdown"
+                        title="Profile & Settings">
+                        <i class="bi bi-person-circle"></i>
+                        <i class="bi bi-caret-down-fill profile-caret"></i>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right profile-menu" aria-labelledby="profileDropdown">
+                        <a class="dropdown-item" href="epic4_profile.html">Profile &amp; Settings</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="login.html">Login</a>
+                        <a class="dropdown-item" href="logout.html">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="app_body">
+        <aside class="sidebar">
+            <div class="sidebar_head">
+                <div class="sidebar_title">Upcoming Events and Courses</div>
+                <div class="sidebar_term" data-term-label>Spring 2026</div>
+            </div>
+            <div class="sidebar_section">
+                <div class="sidebar_section_title">Upcoming Events</div>
+                <div class="sidebar_list" id="sidebarUpcoming"></div>
+            </div>
+
+            <div class="sidebar_section">
+                <div class="sidebar_section_title">Courses</div>
+                <div class="sidebar_list" id="sidebarCourses"></div>
+            </div>
+        </aside>
+
+        <div class="modal fade" id="courseModal" tabindex="-1" role="dialog" aria-labelledby="courseModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <form id="courseEditForm">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Course Details</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" id="modalCourseId">
+                            <div class="form-group"><label for="modalCourseName">Course Name</label><input type="text"
+                                    class="form-control" id="modalCourseName" required></div>
+                            <div class="form-group"><label for="modalCourseTime">Course Time</label><input type="text"
+                                    class="form-control" id="modalCourseTime"></div>
+                            <div class="form-group"><label for="modalCourseInstructor">Instructor</label><input
+                                    type="text" class="form-control" id="modalCourseInstructor"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="deleteCourseBtn" class="btn btn-danger">Delete</button>
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <section class="content">
+            <h2 class="content_title">Focus and Distraction Management</h2>
+
+            <div class="tabs">
+                <div>Tasks | To-Do List</div>
+            </div>
+
+            <div class="grid">
+                <div class="tasks" id="tasksPanel">
+                    <ul id="taskList" class="tasklist"></ul>
+
+                    <div class="task-actions">
+                        <button id="addTaskBtn" class="btn btn-green" type="button">Add a Task</button>
+                        <button id="clearTasksBtn" class="btn" type="button">Clear Tasks</button>
+                    </div>
+                </div>
+
+                <div class="timerInner">
+                    <div>
+                        <div class="focusSelectWrap">
+                            <button type="button" class="focusSelectBtn" id="focusSelectBtn">
+                                <span class="focusSelectText" id="focusSelectText">What are you focusing on right
+                                    now?</span>
+
+                                <span class="focusSelectArrow" id="focusSelectArrow">></span>
+                            </button>
+                            <div class="focusSelectMenu" id="focusSelectMenu"></div>
+                        </div>
+
+                        <div class="timerTitle">Focus Timer</div>
+
+                        <div class="timerBox" aria-label="timer display">
+                            <div class="timeDisplay" id="timeDisplay">00:00</div>
+                        </div>
+
+                        <div class="sliderRow">
+                            <button class="iconBtn" id="minusBtn" type="button">−</button>
+
+                            <div class="sliderWrap">
+                                <input id="timeSlider" type="range" min="0" max="30" step="1" value="0"
+                                    aria-label="timer slider in minutes" />
+                                <div class="ticks" id="ticks"></div>
+                            </div>
+
+                            <button class="iconBtn" id="plusBtn" type="button">+</button>
+                        </div>
+                    </div>
+
+                    <div class="rightControls">
+                        <button class="miniBtn" id="resetBtn" type="button">Reset Time</button>
+
+                        <table class="adjustTable" aria-label="time adjust table">
+                            <tbody id="adjustBody"></tbody>
+                        </table>
+
+                        <button class="startBtn" id="startBtn" type="button">Start Time</button>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </div>
+
+    <div class="modal fade taskModal" id="taskModal" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form id="taskForm">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="taskModalLabel">Add New Task</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="taskTitle">Title <span class="required-star">*</span></label>
+                            <input type="text" id="taskTitle" class="form-control" placeholder="Week 5 Quiz" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="className">Class Name</label>
+                            <input type="text" id="className" class="form-control" placeholder="INFO-I495">
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-green">Save Task</button>
+                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="focus.css">
+
+    <script>
+        (() => {
+            const displayEl = document.getElementById("timeDisplay");
+            const sliderEl = document.getElementById("timeSlider");
+            const minusBtn = document.getElementById("minusBtn");
+            const plusBtn = document.getElementById("plusBtn");
+            const resetBtn = document.getElementById("resetBtn");
+            const startBtn = document.getElementById("startBtn");
+            const adjustBody = document.getElementById("adjustBody");
+            const ticksEl = document.getElementById("ticks");
+
+            const addTaskBtn = document.getElementById("addTaskBtn");
+            const clearTasksBtn = document.getElementById("clearTasksBtn");
+            const taskList = document.getElementById("taskList");
+            const taskForm = document.getElementById("taskForm");
+
+            const focusSelectBtn = document.getElementById("focusSelectBtn");
+            const focusSelectMenu = document.getElementById("focusSelectMenu");
+
+            const focusSelectText = document.getElementById("focusSelectText");
+
+            const tasksPanel = document.getElementById("tasksPanel");
+
+            function getTasks() {
+                return JSON.parse(localStorage.getItem("tasks")) || [];
+            }
+
+            function saveTasks(tasks) {
+                localStorage.setItem("tasks", JSON.stringify(tasks));
+            }
+
+            function sortTasks(tasks) {
+                return [...tasks].sort((a, b) => {
+                    if (a.completed === b.completed) return 0;
+                    return a.completed ? 1 : -1;
+                });
+            }
+
+            function updateEmptyState(tasks) {
+                if (tasks.length === 0) {
+                    tasksPanel.classList.add("empty-list");
+                } else {
+                    tasksPanel.classList.remove("empty-list");
+                }
+            }
+
+            function renderFocusDropdown() {
+                const tasks = sortTasks(getTasks());
+                const activeTasks = tasks.filter(task => !task.completed);
+
+                focusSelectMenu.innerHTML = "";
+
+                if (activeTasks.length === 0) {
+                    const emptyOption = document.createElement("div");
+                    emptyOption.className = "focusOption";
+                    emptyOption.textContent = "No active tasks available";
+                    focusSelectMenu.appendChild(emptyOption);
+                    return;
+                }
+
+                activeTasks.forEach(task => {
+                    const option = document.createElement("div");
+                    option.className = "focusOption";
+                    option.textContent = task.className
+                        ? `${task.title} (${task.className})`
+                        : task.title;
+
+                    option.addEventListener("click", () => {
+                        focusSelectText.textContent = option.textContent;
+                        focusSelectMenu.classList.remove("show");
+
+                        focusSelectBtn.classList.remove("open");
+                    });
+
+                    focusSelectMenu.appendChild(option);
+                });
+            }
+
+            function renderTasks() {
+                const tasks = sortTasks(getTasks());
+                taskList.innerHTML = "";
+
+                updateEmptyState(tasks);
+
+                if (tasks.length === 0) {
+                    const placeholder = document.createElement("li");
+                    placeholder.className = "task-item";
+
+                    placeholder.innerHTML = `
+                        <label class="todo-item">
+                            <input type="checkbox" disabled>
+                            <span class="todo-text">
+                                <span class="main">Task Title</span>
+                                <span class="sub">Class Name</span>
+                            </span>
+                        </label>
+                    `;
+
+                    taskList.appendChild(placeholder);
+                    renderFocusDropdown();
+                    return;
+                }
+
+                tasks.forEach((task, index) => {
+                    const li = document.createElement("li");
+                    li.className = `task-item ${task.completed ? "completed" : ""}`;
+
+                    li.innerHTML = `
+                        <div class="task-row">
+                            <label class="todo-item">
+                                <input type="checkbox" data-index="${index}" ${task.completed ? "checked" : ""}>
+                                <span class="todo-text">
+                                    <span class="main">${task.title}</span>
+                                    <span class="sub">${task.className || ""}</span>
+                                </span>
+                            </label>
+
+                            <button type="button" class="delete-btn" data-delete-index="${index}">
+                                Delete
+                            </button>
+                        </div>
+                    `;
+
+                    taskList.appendChild(li);
+                });
+
+                document.querySelectorAll('#taskList input[type="checkbox"]').forEach((checkbox) => {
+                    checkbox.addEventListener("change", function () {
+                        const sortedTasks = sortTasks(getTasks());
+                        const index = parseInt(this.dataset.index, 10);
+
+                        sortedTasks[index].completed = this.checked;
+                        saveTasks(sortedTasks);
+                        renderTasks();
+                    });
+                });
+
+                document.querySelectorAll('.delete-btn').forEach((button) => {
+                    button.addEventListener("click", function () {
+                        const sortedTasks = sortTasks(getTasks());
+                        const index = parseInt(this.dataset.deleteIndex, 10);
+
+                        sortedTasks.splice(index, 1);
+                        saveTasks(sortedTasks);
+                        renderTasks();
+                    });
+                });
+
+                renderFocusDropdown();
+            }
+
+            addTaskBtn.addEventListener("click", function () {
+                $("#taskModal").modal("show");
+            });
+
+            taskForm.addEventListener("submit", function (e) {
+                e.preventDefault();
+
+                const title = document.getElementById("taskTitle").value.trim();
+                const className = document.getElementById("className").value.trim();
+
+                if (!title) return;
+
+                const newTask = {
+                    title: title,
+                    className: className,
+                    completed: false
+                };
+
+                const tasks = getTasks();
+                tasks.unshift(newTask);
+                saveTasks(tasks);
+
+                renderTasks();
+
+                setTimeout(() => {
+                    taskList.scrollTop = 0;
+                }, 100);
+
+                taskForm.reset();
+                $("#taskModal").modal("hide");
+            });
+
+            clearTasksBtn.addEventListener("click", function () {
+                localStorage.removeItem("tasks");
+
+                focusSelectText.textContent = "What are you focusing on right now?";
+
+                renderTasks();
+            });
+
+            focusSelectBtn.addEventListener("click", function () {
+                focusSelectMenu.classList.toggle("show");
+
+                focusSelectBtn.classList.toggle("open");
+            });
+
+            document.addEventListener("click", function (e) {
+                if (!e.target.closest(".focusSelectWrap")) {
+                    focusSelectMenu.classList.remove("show");
+
+                    focusSelectBtn.classList.remove("open");
+                }
+            });
+
+            const SLIDER_MIN_MINUTES = 0;
+            const SLIDER_MAX_MINUTES = 30;
+
+            /* Keeps the epic6 timer running across page navigation by saving the timer state in localStorage. */
+            const TIMER_STATE_KEY = "stressLessFocusTimerState";
+
+            /* Reads the Default Focus Timer saved on epic4_profile.html so epic6 updates from the profile setting. */
+            function getSavedDefaultFocusMinutes() {
+                try {
+                    const profile = JSON.parse(localStorage.getItem("stressLessProfile")) || {};
+                    const savedMinutes = Number(profile.defaultFocusTime);
+
+                    if (!Number.isFinite(savedMinutes)) return 15;
+
+                    return clampSliderMinutes(savedMinutes);
+                } catch (error) {
+                    return 15;
+                }
+            }
+
+            /* Applies the saved default timer only when the epic6 timer is not already running. */
+            function applySavedDefaultFocusTimer() {
+                if (running) return;
+
+                const savedDefaultMinutes = getSavedDefaultFocusMinutes();
+                stopTimer(false);
+                sliderEl.value = String(savedDefaultMinutes);
+                baseMinutes = savedDefaultMinutes;
+                remainingMs = savedDefaultMinutes * 60 * 1000;
+                render();
+                syncSliderToRemaining();
+                saveTimerState();
+            }
+
+            const TABLE_STEP_SECONDS = 5;
+            const TABLE_MAX_SECONDS = 30;
+
+            let baseMinutes = Number(sliderEl.value);
+            let remainingMs = baseMinutes * 60 * 1000;
+
+            let running = false;
+            let rafId = null;
+            let lastTs = null;
+            let userDragging = false;
+
+            /* Saves the timer so it does not restart or pause when the user leaves epic6. */
+            function saveTimerState() {
+                const state = {
+                    baseMinutes: baseMinutes,
+                    remainingMs: Math.max(0, remainingMs),
+                    running: running,
+                    endTime: running ? Date.now() + Math.max(0, remainingMs) : null,
+                    /* EDITED: Store the current profile default so epic6 can tell when epic4 changed it. */
+                    defaultFocusMinutes: getSavedDefaultFocusMinutes()
+                };
+
+                localStorage.setItem(TIMER_STATE_KEY, JSON.stringify(state));
+            }
+
+            /* Restores a running or paused timer when the user comes back to epic6. */
+            function restoreTimerState() {
+                try {
+                    const savedState = JSON.parse(localStorage.getItem(TIMER_STATE_KEY));
+
+                    if (!savedState) return false;
+
+                    /* If epic4 page, or the user changed the Default Focus Timer, do not reuse an old paused/default timer. */
+                    const currentDefaultMinutes = getSavedDefaultFocusMinutes();
+                    const savedDefaultMinutes = Number(savedState.defaultFocusMinutes);
+                    if (!savedState.running && (!Number.isFinite(savedDefaultMinutes) || savedDefaultMinutes !== currentDefaultMinutes)) {
+                        return false;
+                    }
+
+                    const savedBaseMinutes = Number(savedState.baseMinutes);
+                    baseMinutes = Number.isFinite(savedBaseMinutes) ? clampSliderMinutes(savedBaseMinutes) : getSavedDefaultFocusMinutes();
+
+                    if (savedState.running && savedState.endTime) {
+                        remainingMs = Math.max(0, Number(savedState.endTime) - Date.now());
+
+                        if (remainingMs > 0) {
+                            running = true;
+                            startBtn.textContent = "Pause Time";
+                            render();
+                            syncSliderToRemaining();
+                            rafId = requestAnimationFrame(tick);
+                            return true;
+                        }
+
+                        remainingMs = 0;
+                        running = false;
+                        render();
+                        syncSliderToRemaining();
+                        saveTimerState();
+                        return true;
+                    }
+
+                    const savedRemainingMs = Number(savedState.remainingMs);
+                    remainingMs = Number.isFinite(savedRemainingMs) ? Math.max(0, savedRemainingMs) : baseMinutes * 60 * 1000;
+
+                    sliderEl.value = String(baseMinutes);
+                    render();
+                    syncSliderToRemaining();
+                    return true;
+                } catch (error) {
+                    return false;
+                }
+            }
+
+            function pad2(n) {
+                return String(n).padStart(2, "0");
+            }
+
+            function formatMs(ms) {
+                const clamped = Math.max(0, ms);
+                const totalSeconds = Math.floor(clamped / 1000);
+                const mins = Math.floor(totalSeconds / 60);
+                const secs = totalSeconds % 60;
+                return `${pad2(mins)}:${pad2(secs)}`;
+            }
+
+            function render() {
+                displayEl.textContent = formatMs(remainingMs);
+            }
+
+            function clampSliderMinutes(mins) {
+                return Math.max(SLIDER_MIN_MINUTES, Math.min(SLIDER_MAX_MINUTES, mins));
+            }
+
+            function applySliderToRemaining() {
+                const mins = Number(sliderEl.value);
+                baseMinutes = mins;
+                remainingMs = mins * 60 * 1000;
+                render();
+            }
+
+            function syncSliderToRemaining() {
+                if (userDragging) return;
+
+                const minsFloat = remainingMs / (60 * 1000);
+
+                if (minsFloat < SLIDER_MIN_MINUTES) {
+                    sliderEl.value = String(SLIDER_MIN_MINUTES);
+                    return;
+                }
+
+                if (minsFloat > SLIDER_MAX_MINUTES) {
+                    sliderEl.value = String(SLIDER_MAX_MINUTES);
+                    return;
+                }
+
+                const minsRounded = clampSliderMinutes(Math.round(minsFloat));
+                sliderEl.value = String(minsRounded);
+            }
+
+            function stopTimer(shouldSave = true) {
+                running = false;
+                lastTs = null;
+
+                if (rafId) {
+                    cancelAnimationFrame(rafId);
+                }
+
+                rafId = null;
+                startBtn.textContent = "Start Time";
+
+                if (shouldSave) {
+                    saveTimerState();
+                }
+            }
+
+            function tick(ts) {
+                if (!running) return;
+
+                if (lastTs == null) {
+                    lastTs = ts;
+                }
+
+                const dt = ts - lastTs;
+                lastTs = ts;
+
+                remainingMs -= dt;
+
+                if (remainingMs <= 0) {
+                    remainingMs = 0;
+                    render();
+                    syncSliderToRemaining();
+                    stopTimer();
+                    return;
+                }
+
+                render();
+                syncSliderToRemaining();
+                rafId = requestAnimationFrame(tick);
+            }
+
+            function startOrToggle() {
+                if (!running) {
+                    if (remainingMs <= 0) {
+                        remainingMs = baseMinutes * 60 * 1000;
+                    }
+
+                    running = true;
+                    lastTs = null;
+                    startBtn.textContent = "Pause Time";
+                    saveTimerState();
+                    rafId = requestAnimationFrame(tick);
+                } else {
+                    stopTimer();
+                }
+            }
+
+            function resetToSlider() {
+                stopTimer(false);
+                remainingMs = baseMinutes * 60 * 1000;
+                render();
+                syncSliderToRemaining();
+                saveTimerState();
+            }
+
+            function addSecondsUnlimited(deltaSeconds) {
+                remainingMs = Math.max(0, remainingMs + deltaSeconds * 1000);
+                render();
+                syncSliderToRemaining();
+                saveTimerState();
+            }
+
+            function buildTicks() {
+                ticksEl.innerHTML = "";
+
+                for (let m = 0; m <= 30; m++) {
+                    const tick = document.createElement("div");
+                    tick.className = "tick";
+                    tick.style.left = `${(m / 30) * 100}%`;
+
+                    const dash = document.createElement("div");
+                    dash.className = "dash";
+
+                    const label = document.createElement("div");
+                    label.className = "label";
+                    label.textContent = (m !== 0 && m % 5 === 0) ? String(m) : "";
+
+                    tick.appendChild(dash);
+                    tick.appendChild(label);
+                    ticksEl.appendChild(tick);
+                }
+            }
+
+            function buildAdjustTable() {
+                adjustBody.innerHTML = "";
+
+                for (let s = TABLE_STEP_SECONDS; s <= TABLE_MAX_SECONDS; s += TABLE_STEP_SECONDS) {
+                    const tr = document.createElement("tr");
+
+                    const tdPlus = document.createElement("td");
+                    const tdMinus = document.createElement("td");
+
+                    const plus = document.createElement("button");
+                    plus.className = "tableBtn";
+                    plus.type = "button";
+                    plus.textContent = `+ ${s}s`;
+                    plus.addEventListener("click", () => addSecondsUnlimited(s));
+
+                    const minus = document.createElement("button");
+                    minus.className = "tableBtn";
+                    minus.type = "button";
+                    minus.textContent = `- ${s}s`;
+                    minus.addEventListener("click", () => addSecondsUnlimited(-s));
+
+                    tdPlus.appendChild(plus);
+                    tdMinus.appendChild(minus);
+                    tr.appendChild(tdPlus);
+                    tr.appendChild(tdMinus);
+                    adjustBody.appendChild(tr);
+                }
+            }
+
+            startBtn.addEventListener("click", startOrToggle);
+            resetBtn.addEventListener("click", resetToSlider);
+
+            plusBtn.addEventListener("click", () => {
+                const next = clampSliderMinutes(baseMinutes + 1);
+                sliderEl.value = String(next);
+                baseMinutes = next;
+                remainingMs = next * 60 * 1000;
+                render();
+                saveTimerState();
+            });
+
+            minusBtn.addEventListener("click", () => {
+                const next = clampSliderMinutes(baseMinutes - 1);
+                sliderEl.value = String(next);
+                baseMinutes = next;
+                remainingMs = next * 60 * 1000;
+                render();
+                saveTimerState();
+            });
+
+            sliderEl.addEventListener("input", () => {
+                userDragging = true;
+                applySliderToRemaining();
+                saveTimerState();
+            });
+
+            sliderEl.addEventListener("change", () => {
+                userDragging = false;
+                baseMinutes = Number(sliderEl.value);
+                syncSliderToRemaining();
+                saveTimerState();
+            });
+
+            buildTicks();
+            buildAdjustTable();
+            renderTasks();
+
+            /* Restores the epic6 timer first. If there is no saved timer, use the Default Focus Timer from epic4. */
+            if (!restoreTimerState()) {
+                applySavedDefaultFocusTimer();
+            }
+
+            /* Saves the current timer right before leaving epic6 so it keeps counting on other pages. */
+            window.addEventListener("pagehide", saveTimerState);
+
+            /* If epic4 is open in another tab and the timer setting is saved, epic6 updates only when the timer is not running. */
+            window.addEventListener("storage", function (event) {
+                if ((event.key === "stressLessProfile" || event.key === "stressLessDefaultFocusUpdatedAt") && !running) {
+                    applySavedDefaultFocusTimer();
+                }
+            });
+
+            /* When returning to epic6 after saving the Default Focus Timer on epic4, refresh the timer if it is not running. */
+            window.addEventListener("pageshow", function () {
+                if (!running && !localStorage.getItem(TIMER_STATE_KEY)) {
+                    applySavedDefaultFocusTimer();
+                }
+            });
+        })();
+    </script>
+
+    <script src="storage.js"></script>
+</body>
+
+</html>

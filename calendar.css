@@ -1,0 +1,170 @@
+/*CALENDAR PANEL*/
+.panel {
+    background: #abaa8cb0;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, .03);
+}
+
+.panel_head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.panel_title {
+    font-weight: 700;
+    font-size: 16px;
+    margin: 0;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.week_controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 10px 0 12px;
+}
+
+.events_list {
+    border-top: 1px solid rgba(0, 0, 0, .15);
+    margin-top: 10px;
+    padding-top: 10px;
+    max-height: 180px;
+    overflow: auto;
+}
+
+.event_row:last-child {
+    border-bottom: none;
+}
+
+.event_meta .title {
+    font-weight: 700;
+    font-size: 13px;
+}
+
+.event_meta .when {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+/*cells for calendar*/
+.calendar-page .calendar {
+    display: grid;
+    grid-template-columns: 80px repeat(7, 1fr);
+    grid-template-rows: 35px repeat(24, 35px);
+    border: 1px solid #ccc;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.calendar-page .day-header {
+    background: #f5f5f5;
+    font-weight: 700;
+    text-align: center;
+    border: 1px solid #ddd;
+    font-size: 12px;
+    padding: 4px 0;
+}
+
+.calendar-page .time-label {
+    font-size: 12px;
+    text-align: right;
+    padding-right: 6px;
+    border: 1px solid #eee;
+    background: #fafafa;
+}
+
+.calendar-page .calendar-cell {
+    border: 1px solid #e5e7eb;
+    position: relative;
+}
+
+.calendar-page .cal-event {
+    border-radius: 10px;
+    padding: 6px 8px;
+    font-size: 12px;
+    color: #fff;
+    overflow: hidden;
+    z-index: 5;
+    box-sizing: border-box;
+    align-self: stretch;
+    justify-self: stretch;
+    min-height: 0;
+}
+
+.calendar-page .cal-event .sub {
+    display: block;
+    font-size: 11px;
+    opacity: 0.9;
+    margin-top: 2px;
+}
+
+/*Add event form css*/
+.form-panel {
+    max-width: 760px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+@media (max-width: 900px) {
+    .form_grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+label {
+    font-weight: 700;
+    font-size: 12px;
+    margin-bottom: 6px;
+}
+
+.input,
+.select,
+.textarea {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 10px;
+    background: #fff;
+    font-size: 14px;
+}
+
+.textarea {
+    resize: vertical;
+}
+
+.help {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 6px;
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+}
+
+/* Timer side controls alignment */
+.timer-controls,
+.time-controls,
+.controls-table,
+.adjustment-buttons {
+    margin-top: 90px !important;
+}

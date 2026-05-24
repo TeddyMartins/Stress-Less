@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="style.css">
+  <title>Assignment Tracker</title>
+</head>
+
+<body class="has-fixed-nav">
+
+  <!--MAIN NAVBAR (or topNavbar), css reference 'top-navbar'-->
+  <nav class="navbar navbar-expand-lg navbar-light top-navbar">
+    <a class="navbar-brand" href="index.html">Home</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse"
+      aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse dual-collapse" id="mainNavbar">
+      <div class="navbar-nav">
+        <a class="nav-item nav-link active" href="epic1_classCalendar.html">Planner</a>
+        <a class="nav-item nav-link active" href="epic6_focusManagement.html">Study Timer</a>
+        <a class="nav-item nav-link active" href="epic2_studyTracker.html">Assignment Tracker</a>
+        <a class="nav-item nav-link active" href="epic3_stressManagement.html">Stress Management Tips</a>
+      </div>
+      <div class="navbar-nav ml-auto nav-auth-group">
+        <div class="nav-item dropdown"><a class="nav-link dropdown-toggle active" href="#" id="aboutDropdown"
+            role="button" data-toggle="dropdown">About</a>
+          <div class="dropdown-menu" aria-labelledby="aboutDropdown">
+            <a class="dropdown-item" href="team.html">About Us</a>
+            <a class="dropdown-item" href="about.html">About the Project</a>
+          </div>
+        </div>
+        <div class="nav-item dropdown profile-dropdown-wrap"><a class="nav-link profile-icon active"
+            href="epic4_profile.html" id="profileDropdown" title="Profile & Settings"><i
+              class="bi bi-person-circle"></i><i class="bi bi-caret-down-fill profile-caret"></i></a>
+          <div class="dropdown-menu dropdown-menu-right profile-menu" aria-labelledby="profileDropdown"><a
+              class="dropdown-item" href="epic4_profile.html">Profile &amp; Settings</a>
+            <div class="dropdown-divider"></div><a class="dropdown-item" href="login.html">Login</a><a
+              class="dropdown-item" href="logout.html">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sidebar_head">
+        <div class="sidebar_title">Upcoming Events and Courses</div>
+        <div class="sidebar_term" data-term-label>Spring 2026</div>
+      </div>
+      <div class="sidebar_section">
+        <div class="sidebar_section_title">Upcoming Events</div>
+        <div class="sidebar_list" id="sidebarUpcoming"></div>
+      </div>
+
+      <div class="sidebar_section">
+        <div class="sidebar_section_title">Courses</div>
+        <div class="sidebar_list" id="sidebarCourses"></div>
+      </div>
+    </aside>
+
+    <div class="modal fade" id="courseModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <form id="courseEditForm">
+            <div class="modal-header">
+              <h5 class="modal-title">Course Details</h5><button type="button" class="close"
+                data-dismiss="modal"><span>&times;</span></button>
+            </div>
+            <div class="modal-body"><input type="hidden" id="modalCourseId">
+              <div class="form-group"><label for="modalCourseName">Course Name</label><input type="text"
+                  class="form-control" id="modalCourseName" required></div>
+              <div class="form-group">
+                <label for="modalCourseTime">Course Time</label>
+                <input type="text" class="form-control" id="modalCourseTime">
+              </div>
+              <div class="form-group">
+                <label for="modalCourseInstructor">Instructor</label>
+                <input type="text" class="form-control" id="modalCourseInstructor">
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" id="deleteCourseBtn" class="btn btn-danger">Delete</button>
+              <button type="submit" class="btn btn-primary">Save
+                Changes</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <main class="content tracker-page">
+      <header class="tracker-header">
+        <h2 class="tracker-title">Assignment &amp; Quiz Tracker</h2>
+        <p class="tracker-subtitle">Spring 2026 - Assignment</p>
+      </header>
+
+      <div class="tracker-tabs" aria-label="Assignment filters">
+        <button type="button" class="tracker-tab is-active" data-filter="assignments">Assignments</button>
+        <button type="button" class="tracker-tab" data-filter="quizzes">Quizzes</button>
+        <button type="button" class="tracker-tab" data-filter="completed">Completed</button>
+        <button type="button" class="tracker-tab" data-filter="pastDue">Past Due</button>
+      </div>
+
+      <section class="assignment-card-grid" id="assignmentCardGrid" aria-live="polite"></section>
+
+      <!-- The add button now opens the Add New Assignment modal on this same epic2 page. -->
+      <button type="button" class="tracker-add-btn" data-toggle="modal" data-target="#addAssignmentModal">+ Add</button>
+    </main>
+  </div>
+
+  <!-- The add New Assignment modal added directly to epic2 so the user does not leave this page. -->
+  <div class="modal fade" id="addAssignmentModal" tabindex="-1" role="dialog" aria-labelledby="addAssignmentModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addAssignmentModalLabel">Add New Assignment</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="editCardId" value="">
+          <input type="hidden" id="editCardIsCustom" value="">
+          <div class="form-group">
+            <label for="assignmentTitle">Title <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="assignmentTitle" placeholder="e.g. Week 5 Summary" required>
+          </div>
+          <div class="form-group">
+            <label for="assignmentDesc">Description</label>
+            <textarea class="form-control" id="assignmentDesc" rows="3"
+              placeholder="Body text for whatever you'd like to say..."></textarea>
+          </div>
+          <div class="form-group">
+            <label for="assignmentClass">Course</label>
+            <input type="text" class="form-control" id="assignmentClass" placeholder="e.g. INFO-I 341">
+          </div>
+          <div class="form-group">
+            <label for="assignmentDue">Due Date</label>
+            <input type="date" class="form-control" id="assignmentDue">
+          </div>
+          <div class="form-group">
+            <label for="assignmentType">Type</label>
+            <select class="form-control" id="assignmentType">
+              <option value="assignments">Assignment</option>
+              <option value="quizzes">Quiz</option>
+              <option value="completed">Completed</option>
+              <option value="past">Past Due</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-green" id="saveAssignmentBtn">Save Assignment</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="storage.js"></script>
+  <script src="tracker.js"></script>
+
+  <style>
+    /* Made epic2 Add/Edit Assignment modal header title match the Add New Task modal title color on epic6. */
+    #addAssignmentModal .modal-header {
+      background: #3f8a3b;
+      color: #fff;
+    }
+
+    #addAssignmentModalLabel {
+      color: #fff;
+    }
+
+    #addAssignmentModal .modal-header .close {
+      color: #fff;
+      opacity: 1;
+    }
+
+    /* Scoped epic2 modal button style so Save Assignment matches the green modal button */
+    #addAssignmentModal .btn-green {
+      border-color: #000;
+    }
+
+    #addAssignmentModal .btn-green:hover {
+      color: #fff;
+      border-color: #000;
+    }
+
+    /* below are for the Mark as complete, Add, and Delete buttons hover */
+    /* Mark as Completed hover */
+    .complete-btn:hover {
+      background: #3f8a3b;
+      color: #fff;
+      border-color: #000;
+    }
+
+    /* Edit hover */
+    .edit-btn:hover {
+      background: #d09e06;
+      color: #fff;
+      border-color: #000;
+    }
+
+    /* Delete hover */
+    .delete-btn:hover {
+      background: #dc3545;
+      color: #fff;
+      border-color: #000;
+    }
+  </style>
+
+  <script>
+    // Saves the Add New Assignment modal fields to the epic2 tracker without opening another HTML page.
+    document.addEventListener('DOMContentLoaded', function () {
+      const saveAssignmentBtn = document.getElementById('saveAssignmentBtn');
+      const addAssignmentModal = document.getElementById('addAssignmentModal');
+
+      function resetAssignmentModal() {
+        // Reset the shared modal back to Add mode after it has been used for editing.
+        document.getElementById('addAssignmentModalLabel').textContent = 'Add New Assignment';
+        document.getElementById('saveAssignmentBtn').textContent = 'Save Assignment';
+        document.getElementById('editCardId').value = '';
+        document.getElementById('editCardIsCustom').value = '';
+        document.getElementById('assignmentTitle').value = '';
+        document.getElementById('assignmentDesc').value = '';
+        document.getElementById('assignmentClass').value = '';
+        document.getElementById('assignmentDue').value = '';
+        document.getElementById('assignmentType').value = 'assignments';
+      }
+
+      if (addAssignmentModal && window.jQuery) {
+        $('#addAssignmentModal').on('hidden.bs.modal', resetAssignmentModal);
+      }
+
+      const addAssignmentBtn = document.querySelector('.tracker-add-btn[data-target="#addAssignmentModal"]');
+      if (addAssignmentBtn) {
+        addAssignmentBtn.addEventListener('click', resetAssignmentModal);
+      }
+
+      if (saveAssignmentBtn) {
+        saveAssignmentBtn.addEventListener('click', function () {
+          const title = document.getElementById('assignmentTitle').value.trim();
+          const description = document.getElementById('assignmentDesc').value.trim();
+          const className = document.getElementById('assignmentClass').value.trim();
+          const dueDate = document.getElementById('assignmentDue').value;
+          const selectedType = document.getElementById('assignmentType').value;
+          const editCardId = document.getElementById('editCardId').value;
+
+          if (!title) {
+            document.getElementById('assignmentTitle').focus();
+            return;
+          }
+
+          // Past Due items need an actual past due date so they show under the Past Due tab.
+          const yesterday = new Date();
+          yesterday.setDate(yesterday.getDate() - 1);
+          const fallbackPastDueDate = yesterday.toISOString().slice(0, 10);
+          const finalDueDate = selectedType === 'past' && !dueDate ? fallbackPastDueDate : dueDate;
+
+          const savedTask = {
+            title: title,
+            description: description,
+            className: className || 'INFO-I 341',
+            dueDate: finalDueDate,
+            type: selectedType === 'quizzes' ? 'Quiz' : 'Assignment',
+            completed: selectedType === 'completed'
+          };
+
+          // If the modal was opened from an Edit button, update that existing assignment instead of adding a new one.
+          if (editCardId !== '') {
+            const tasks = StressLessStore.getTasks();
+            const editIndex = Number(editCardId);
+
+            if (!Number.isNaN(editIndex) && tasks[editIndex]) {
+              tasks[editIndex] = {
+                ...tasks[editIndex],
+                ...savedTask
+              };
+              StressLessStore.saveTasks(tasks);
+            }
+          } else {
+            StressLessStore.addTask(savedTask);
+          }
+
+          $('#addAssignmentModal').modal('hide');
+
+          const tabToShow = selectedType === 'past' ? 'pastDue' : selectedType;
+          const matchingTab = document.querySelector('.tracker-tab[data-filter="' + tabToShow + '"]');
+          const activeTab = matchingTab || document.querySelector('.tracker-tab.is-active');
+          if (activeTab) {
+            activeTab.click();
+          }
+          if (window.renderSharedSidebar) {
+            renderSharedSidebar();
+          }
+        });
+      }
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="style.css">
+  <title>Stress Less Dashboard</title>
+</head>
+
+<body class="has-fixed-nav">
+  <!--MAIN NAVBAR (or topNavbar), css reference 'top-navbar'-->
+
+  <nav class="navbar navbar-expand-lg navbar-light top-navbar">
+    <a class="navbar-brand" href="index.html">Home</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse"
+      aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse dual-collapse" id="mainNavbar">
+      <div class="navbar-nav">
+        <a class="nav-item nav-link active" href="epic1_classCalendar.html">Planner</a>
+        <a class="nav-item nav-link active" href="epic6_focusManagement.html">Study Timer</a>
+        <a class="nav-item nav-link active" href="epic2_studyTracker.html">Assignment Tracker</a>
+        <a class="nav-item nav-link active" href="epic3_stressManagement.html">Stress Management Tips</a>
+      </div>
+      <div class="navbar-nav ml-auto nav-auth-group">
+        <div class="nav-item dropdown"><a class="nav-link dropdown-toggle active" href="#" id="aboutDropdown"
+            role="button" data-toggle="dropdown">About</a>
+          <div class="dropdown-menu" aria-labelledby="aboutDropdown">
+            <a class="dropdown-item" href="team.html">About Us</a>
+            <a class="dropdown-item" href="about.html">About the Project</a>
+          </div>
+        </div>
+        <div class="nav-item dropdown profile-dropdown-wrap"><a class="nav-link profile-icon active"
+            href="epic4_profile.html" id="profileDropdown" title="Profile & Settings"><i
+              class="bi bi-person-circle"></i><i class="bi bi-caret-down-fill profile-caret"></i></a>
+          <div class="dropdown-menu dropdown-menu-right profile-menu" aria-labelledby="profileDropdown"><a
+              class="dropdown-item" href="epic4_profile.html">Profile &amp; Settings</a>
+            <div class="dropdown-divider"></div><a class="dropdown-item" href="login.html">Login</a><a
+              class="dropdown-item" href="logout.html">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sidebar_head">
+        <div class="sidebar_title">Upcoming Events and Courses</div>
+        <div class="sidebar_term" data-term-label>Spring 2026</div>
+      </div>
+      <div class="sidebar_section">
+        <div class="sidebar_section_title">Upcoming Events</div>
+        <div class="sidebar_list" id="sidebarUpcoming"></div>
+      </div>
+      <div class="sidebar_section">
+        <div class="sidebar_section_title">Courses</div>
+        <div class="sidebar_list" id="sidebarCourses"></div>
+      </div>
+    </aside>
+    <div class="modal fade" id="courseModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <form id="courseEditForm">
+            <div class="modal-header">
+              <h5 class="modal-title">Course Details</h5><button type="button" class="close"
+                data-dismiss="modal"><span>&times;</span></button>
+            </div>
+            <div class="modal-body"><input type="hidden" id="modalCourseId">
+              <div class="form-group"><label for="modalCourseName">Course Name</label><input type="text"
+                  class="form-control" id="modalCourseName" required></div>
+              <div class="form-group"><label for="modalCourseTime">Course Time</label><input type="text"
+                  class="form-control" id="modalCourseTime"></div>
+              <div class="form-group"><label for="modalCourseInstructor">Instructor</label><input type="text"
+                  class="form-control" id="modalCourseInstructor"></div>
+            </div>
+            <div class="modal-footer"><button type="button" id="deleteCourseBtn"
+                class="btn btn-danger">Delete</button><button type="submit" class="btn btn-primary">Save
+                Changes</button></div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <main class="content">
+      <div class="container-fluid mt-4">
+        <h1>Stress Less Dashboard</h1>
+        <div class="dashboard-card mb-3">
+          <h2 class="mb-1">Get Started</h2>
+          <p class="text-muted mb-3">Add something to your planner or jump back into your work.</p>
+
+          <!--Add Event-->
+          <div class="row justify-content-center text-center">
+            <div class="col-md-3 mb-2">
+              <div class="action-desc">Add a study session or assignment</div>
+              <a href="add_event.html" class="action-card">
+                <div class="action-title">Add Event</div>
+              </a>
+            </div>
+
+            <!--Upload Image-->
+            <div class="col-md-3 mb-2">
+              <div class="action-desc">Import your planner</div>
+              <a href="epic5_import.html" class="action-card">
+                <div class="action-title">Upload Image</div>
+
+              </a>
+            </div>
+
+            <!--Study Timer-->
+            <div class="col-md-3 mb-2">
+              <div class="action-desc">Begin a focus session</div>
+              <a href="epic6_focusManagement.html" class="action-card">
+                <div class="action-title">Study Timer</div>
+
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 mb-4">
+            <div class="dashboard-card h-100">
+              <h2>Quick Stats</h2>
+              <p class="mb-2"><strong id="upcomingCount">0</strong> upcoming events</p>
+              <p class="mb-2"><strong id="todayCount">0</strong> events today</p>
+              <p class="mb-0" id="nextEventLine">No upcoming events scheduled.</p>
+            </div>
+          </div>
+          <div class="col-md-6 mb-4">
+            <div class="dashboard-card h-100">
+              <h2>Check In</h2>
+              <p class="mb-3">How are you feeling today?</p>
+              <form id="checkinForm" class="checkin-buttons"><button type="button" data-mood="calm" class="btn small">😌
+                  Calm</button><button type="button" data-mood="okay" class="btn small">🙂 Okay</button><button
+                  type="button" data-mood="stressed" class="btn small">😵 Stressed</button></form>
+              <p id="checkinMessage" class="mt-2 text-muted"></p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 mb-4">
+            <div class="alert alert-info" role="alert"><strong>Random Tip:</strong> <span id="tipOfDay">Remember to take
+                short breaks during study sessions to maintain focus and productivity.</span></div>
+          </div>
+        </div>
+        <p class="mt-4">You are viewing the local demo version.</p>
+      </div>
+    </main>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="storage.js"></script>
+  <script src="dashboard.js"></script>
+</body>
+
+</html>

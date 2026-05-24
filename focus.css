@@ -1,0 +1,198 @@
+/* Moved timer adjustment table down to align with the timer container */
+.content {
+    overflow: hidden;
+}
+
+.grid {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+    height: calc(100vh - 120px);
+    overflow: hidden;
+}
+
+.tasks {
+    width: 38%;
+    max-width: 420px;
+    height: 100%;
+    padding-right: 10px;
+    flex-shrink: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.timerInner {
+    width: 62%;
+    position: sticky;
+    top: 20px;
+    align-self: flex-start;
+}
+
+.focusSelectWrap {
+    margin-bottom: 20px;
+    position: relative;
+    width: 290px;
+}
+
+.focusSelectBtn {
+    width: 100%;
+    background: #fffdf4;
+    border: 3px solid #111;
+    padding: 10px 14px;
+    font-size: 14px;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.focusSelectArrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 12px;
+    font-size: 14px;
+    line-height: 1;
+    transition: transform 0.25s ease;
+    flex-shrink: 0;
+}
+
+.focusSelectBtn.open .focusSelectArrow {
+    transform: rotate(90deg);
+}
+
+.focusSelectMenu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    width: 100%;
+    background: #fffdf4;
+    border: 2px solid #111;
+    border-radius: 4px;
+    z-index: 999;
+    max-height: 220px;
+    overflow-y: auto;
+}
+
+.focusSelectMenu.show {
+    display: block;
+}
+
+.focusOption {
+    padding: 10px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+}
+
+.focusOption:last-child {
+    border-bottom: none;
+}
+
+.focusOption:hover {
+    background: #f1efd7;
+}
+
+.delete-btn:hover {
+    background: #f1efd7;
+}
+
+.task-item.completed .main,
+.task-item.completed .sub {
+    text-decoration: line-through;
+    opacity: 0.7;
+}
+
+.tasklist {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 20px;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    max-height: 520px;
+}
+
+.task-item {
+    margin-bottom: 18px;
+}
+
+.task-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.todo-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 0;
+    flex: 1;
+}
+
+.todo-item input[type="checkbox"] {
+    margin-top: 5px;
+}
+
+.todo-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+
+.todo-text .main {
+    font-weight: 600;
+}
+
+.todo-text .sub {
+    font-size: 14px;
+    opacity: 0.8;
+    margin-top: 4px;
+}
+
+.delete-btn {
+    display: none;
+    background: #fa5555cf;
+    border: 2px solid #111;
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 13px;
+    cursor: pointer;
+    line-height: 1.2;
+    flex-shrink: 0;
+}
+
+.task-item.completed .delete-btn {
+    display: inline-block;
+}
+
+.task-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 10px;
+    padding-bottom: 20px;
+}
+
+.tasks.empty-list .task-actions {
+    margin-top: 6px;
+}
+
+.tasks.empty-list .tasklist {
+    margin-bottom: 8px;
+    max-height: none;
+    overflow-y: visible;
+}
+
+/* Timer side controls alignment */
+.timer-controls,
+.time-controls,
+.controls-table,
+.adjustment-buttons {
+    margin-top: 90px !important;
+}
